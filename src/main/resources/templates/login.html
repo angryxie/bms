@@ -3,13 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>登录页面</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.js"></script>
 </head>
 <body>
-    <form action="/login" method="post">
+    <form action="/doLogin" method="post">
         <label>用户名:</label><input name="userName"  >
         <label>密码:</label><input name="password">
         <label>记住我：</label><input type="checkbox" name="rememberMe">
         <button>登录</button>
     </form>
+    <button onclick="Iclick()">click</button>
 </body>
+<script type="text/javascript">
+    function Iclick() {
+        $.ajax({
+            url:'/perms',
+            success:function (result) {
+                alert();
+                console.log(result);
+            },
+            error:function (a,b,c) {
+                console.log(a);
+                console.log(b);
+                console.log(c);
+            }
+        })
+    }
+</script>
 </html>

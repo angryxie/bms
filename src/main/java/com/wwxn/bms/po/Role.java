@@ -1,9 +1,12 @@
 package com.wwxn.bms.po;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Role {
+public class Role implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     private Integer roleId;
 
     private String roleName;

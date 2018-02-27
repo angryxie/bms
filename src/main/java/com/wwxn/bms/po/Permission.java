@@ -1,8 +1,11 @@
 package com.wwxn.bms.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Permission {
+public class Permission  implements Serializable{
+
+    private static final long serialVersionUID = 1L;
     private Integer permissionId;
 
     private String permissionName;
