@@ -9,9 +9,12 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,10 +30,11 @@ public class ShiroConfiguration {
         filterMap.put("/static/**","anon");
         filterMap.put("/favicon.ico", "anon");
         filterMap.put("/login.html","anon");
+        filterMap.put("/doLogin","anon");
         filterMap.put("/index","user");
         filterMap.put("/**","authc");
         filter.setFilterChainDefinitionMap(filterMap);
-        filter.setLoginUrl("/login");
+        filter.setLoginUrl("/login.html");
         filter.setSuccessUrl("/index.html");
         return  filter;
     }
@@ -56,6 +60,7 @@ public class ShiroConfiguration {
         HashedCredentialsMatcher hashedCredentialsMatcher=new HashedCredentialsMatcher();
         hashedCredentialsMatcher.setHashAlgorithmName("MD5");
         hashedCredentialsMatcher.setHashIterations(1);
+        hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
         return  hashedCredentialsMatcher;
     }
 
@@ -65,10 +70,12 @@ public class ShiroConfiguration {
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
-
     @Bean
-    public ExceptionHandler exceptionHandler(){
-        return  new ExceptionHandler();
+    @ConditionalOnMissingBean
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator defaultAAP = new DefaultAdvisorAutoProxyCreator();
+        defaultAAP.setProxyTargetClass(true);
+        return defaultAAP;
     }
 
     @Bean
@@ -91,5 +98,6 @@ public class ShiroConfiguration {
         cookieRememberMeManager.setCookie(rememberMeCookie);
         return cookieRememberMeManager;
     }
+
 
 }
