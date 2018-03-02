@@ -1,7 +1,9 @@
 package com.wwxn.bms.controller;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
+import com.wwxn.bms.po.User;
 import com.wwxn.bms.pojo.ResultBean;
+import com.wwxn.bms.service.MenuService;
 import org.apache.catalina.manager.util.SessionUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
@@ -27,6 +30,9 @@ import java.util.Map;
 public class UserController {
 
     private Logger logger= LoggerFactory.getLogger(UserController.class);
+
+    @Resource
+    private MenuService menuService;
 
     @RequestMapping(value = "/doLogin",method =RequestMethod.POST)
     @ResponseBody
@@ -48,20 +54,12 @@ public class UserController {
         }
     }
 
-    @RequestMapping("/index")
-    public String index(){
-        return  "index";
+    @RequestMapping("/getMenuInfo")
+    @ResponseBody
+    public ResultBean getMenuInfo(){
+        //User userInfo= (User) SecurityUtils.getSubject().getPrincipal();
+        return menuService.getMenuInfo(1);
     }
 
-    @RequestMapping("/perms")
-    @ResponseBody
-    @RequiresPermissions("user:delete")
-    public ResultBean permsTest(){
-        ResultBean result=new ResultBean();
-        result.setSuccess(true);
-        result.setResultCode(200);
-        result.setMessage("success");
-        return result;
-    }
 
 }
