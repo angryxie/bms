@@ -29,6 +29,7 @@ import javax.websocket.server.PathParam;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
     private Logger logger= LoggerFactory.getLogger(UserController.class);
@@ -67,7 +68,7 @@ public class UserController {
     @ResponseBody
     public Boolean ispermision(@PathVariable("permision") String permision){
         logger.info("==========================="+permision);
-        return  false;
+        return  true;
     }
 
 
