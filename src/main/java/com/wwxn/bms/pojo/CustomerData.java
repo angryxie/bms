@@ -1,6 +1,16 @@
 package com.wwxn.bms.pojo;
 
-public class CustomerData {
+public class CustomerData extends PageData {
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     private String name;
 
     private String gender;
@@ -10,6 +20,16 @@ public class CustomerData {
     private String birth;
 
     private String phone;
+
+    private String isdelete;
+
+    public String getIsdelete() {
+        return isdelete;
+    }
+
+    public void setIsdelete(String isdelete) {
+        this.isdelete = isdelete;
+    }
 
     public String getName() {
         return name;

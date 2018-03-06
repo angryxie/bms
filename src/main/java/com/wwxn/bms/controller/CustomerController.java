@@ -18,9 +18,15 @@ public class CustomerController {
     @Resource
     private CustomerService customerService;
 
-    @RequestMapping("/add")
+    @RequestMapping("/addOrUpdate")
     @ResponseBody
     public ResultBean addCustomer(@RequestBody CustomerData customer) throws ParseException {
-        return  customerService.addCustomer(customer);
+        return  customerService.addOrUpdateCustomer(customer);
+    }
+
+    @RequestMapping("/getCustomerPageData")
+    @ResponseBody
+    public ResultBean getCustomerPageData(@RequestBody CustomerData customerData ){
+        return  customerService.getCustomerPageData(customerData);
     }
 }

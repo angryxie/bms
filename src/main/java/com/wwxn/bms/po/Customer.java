@@ -15,6 +15,16 @@ public class Customer {
 
     private String address;
 
+    private Integer isdelete;
+
+    public Integer getIsdelete() {
+        return isdelete;
+    }
+
+    public void setIsdelete(Integer isdelete) {
+        this.isdelete = isdelete;
+    }
+
     public Integer getId() {
         return id;
     }

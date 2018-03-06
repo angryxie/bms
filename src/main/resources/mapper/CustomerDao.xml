@@ -4,4 +4,40 @@
     <insert id="addCustomer" parameterType="com.wwxn.bms.po.Customer">
       INSERT INTO customer(name,gender,phone,birth,address,create_date,isdelete) VALUES(#{name},#{gender},#{phone},#{birth},#{address},NOW(),0)
     </insert>
+
+    <select id="getCustomerPageData" resultType="com.wwxn.bms.po.Customer">
+        SELECT * from customer where isdelete=0
+        <if test="phone!=null">
+            and phone like '%${phone}%'
+        </if>
+        <if test="name!=null">
+            and name LIKE #{name}
+        </if>
+    </select>
+
+    <update id="updateCustomer">
+        update customer
+        <set>
+            update_date=NOW(),
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="gender!=null">
+                gender=#{gender},
+            </if>
+            <if test="phone!=null">
+                phone=#{phone},
+            </if>
+            <if test="birth!=null">
+                birth=#{birth},
+            </if>
+            <if test="address!=null">
+                address=#{address},
+            </if>
+            <if test="isdelete!=null">
+                isdelete=#{isdelete},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
 </mapper>

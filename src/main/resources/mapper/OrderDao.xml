@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wwxn.bms.dao.OrderDao">
+    <insert id="addOrder">
+        INSERT INTO `order` (order_code, name, phone, appointment, price, paid, unpaid, remark, invoice_code, owner, create_date)
+        VALUES (#{orderCode},#{name},#{phone},#{appointment},#{price},#{paid},#{unpaid},#{remark},#{invoiceCode},#{owner},NOW())
+    </insert>
+
+    <select id="getOrderPageData" resultType="com.wwxn.bms.po.Order">
+        SELECT * from `order` where isdelete='0'
+        <if test="name!=null">
+            and name like '%${name}%'
+        </if>
+        <if test="phone!=null">
+            and phone like '%${phone}%'
+        </if>
+    </select>
+
+    <update id="updateOrder">
+        UPDATE `order`
+        <set>
+            <if test="name!=null">
+              name=#{name},
+            </if>
+            <if test="phone!=null">
+              phone=#{phone},
+            </if>
+            <if test="appointment!=null">
+                appointment=#{appointment},
+            </if>
+            <if test="price!=null">
+                price=#{price},
+            </if>
+            <if test="paid!=null">
+                paid=#{paid},
+            </if>
+            <if test="unpaid!=null">
+              unpaid=#{unpaid},
+            </if>
+            <if test="remark!=null">
+              remark=#{remark},
+            </if>
+            <if test="invoiceCode!=null">
+                invoice_code=#{invoiceCode},
+            </if>
+        </set>
+        WHERE  id=#{id}
+    </update>
+</mapper>

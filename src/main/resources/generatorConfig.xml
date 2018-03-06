@@ -47,10 +47,10 @@
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>-->
         <!-- 指定数据库表 -->
-        <table tableName="role_permission"></table>
+        <!--<table tableName="role_permission"></table>
         <table  tableName="permission"></table>
         <table  tableName="role"></table>
-        <table tableName="user"></table>
-        <table tableName="user_role"></table>
+        <table tableName="user"></table>-->
+        <table tableName="order"></table>
     </context>
 </generatorConfiguration>
