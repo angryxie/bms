@@ -18,10 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -39,22 +36,21 @@ public class UserController {
 
     @RequestMapping(value = "/doLogin",method =RequestMethod.POST)
     @ResponseBody
-    public String doLogin(String userName, String password) throws Exception {
+    public ResultBean doLogin(@RequestBody User user) throws Exception {
+        ResultBean result=new ResultBean();
         Subject currentUser = SecurityUtils.getSubject();
         if (currentUser!=null&&currentUser.isAuthenticated()){
-            logger.info("已经登录过了");
-            return "success1";
+            result.setSuccess(true);
+            result.setResultCode(200);
+            result.setMessage("您已经登录过了");
         }
         else {
-            try {
-                currentUser.login(new UsernamePasswordToken(userName,password));
-                return "success";
-            }
-            catch (Exception e){
-                logger.error(e.getMessage(),e);
-                return "error";
-            }
+            currentUser.login(new UsernamePasswordToken(user.getUserName(),user.getPassword()));
+            result.setMessage("登录成功");
+            result.setSuccess(true);
+            result.setResultCode(200);
         }
+        return  result;
     }
 
     @RequestMapping("/getMenuInfo")
