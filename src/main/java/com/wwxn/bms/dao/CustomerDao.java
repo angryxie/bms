@@ -9,5 +9,6 @@ public interface CustomerDao {
 
     int updateCustomer(Customer customer);
 
+
     List<Customer> getCustomerPageData(Customer customer);
 }

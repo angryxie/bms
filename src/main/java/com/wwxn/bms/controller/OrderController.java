@@ -28,4 +28,10 @@ public class OrderController {
     public ResultBean getOrderPageData(@RequestBody OrderData orderData){
         return orderService.getOrderPageData(orderData);
     }
+
+    @ResponseBody
+    @RequestMapping("/deleteOrder")
+    public ResultBean deleteOrder(@RequestBody OrderData orderData){
+        return orderService.deleteOrder(orderData);
+    }
 }

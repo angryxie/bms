@@ -4,6 +4,7 @@ import ch.qos.logback.core.net.SyslogOutputStream;
 import com.wwxn.bms.po.User;
 import com.wwxn.bms.pojo.ResultBean;
 import com.wwxn.bms.service.MenuService;
+import com.wwxn.bms.service.UserService;
 import org.apache.catalina.manager.util.SessionUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -34,6 +35,8 @@ public class UserController {
     @Resource
     private MenuService menuService;
 
+    @Resource
+    private UserService userService;
     @RequestMapping(value = "/doLogin",method =RequestMethod.POST)
     @ResponseBody
     public ResultBean doLogin(@RequestBody User user) throws Exception {
@@ -58,6 +61,12 @@ public class UserController {
     public ResultBean getMenuInfo(){
         //User userInfo= (User) SecurityUtils.getSubject().getPrincipal();
         return menuService.getMenuInfo(1);
+    }
+
+    @ResponseBody
+    @RequestMapping("/getUserInfo")
+    public ResultBean getUserInfo(){
+        return userService.getUserInfo();
     }
 
     @RequestMapping("/ispermision/{permision}")

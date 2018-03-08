@@ -10,4 +10,8 @@
         WHERE
 	      user_name=#{userName}
     </select>
+
+    <select id="getUserInfo" resultType="com.wwxn.bms.po.User">
+      SELECT user_id , name FROM user where isdelete=0
+    </select>
 </mapper>

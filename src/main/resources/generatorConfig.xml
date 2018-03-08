@@ -51,6 +51,6 @@
         <table  tableName="permission"></table>
         <table  tableName="role"></table>
         <table tableName="user"></table>-->
-        <table tableName="order"></table>
+        <table tableName="order_entry"></table>
     </context>
 </generatorConfiguration>

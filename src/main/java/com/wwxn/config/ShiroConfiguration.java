@@ -27,16 +27,18 @@ public class ShiroConfiguration {
         filter.setSecurityManager(securityManager);
         Map<String,String> filterMap=new HashMap<>();
         filterMap.put("/logout","logout");
-        /*filterMap.put("/static/**","anon");
+        filterMap.put("/static/**","anon");
         filterMap.put("/favicon.ico", "anon");
-        filterMap.put("/login.html","anon");
+        filterMap.put("/user/doLogin","anon");
         filterMap.put("/doLogin","anon");
         filterMap.put("/index","user");
-        filterMap.put("/**","authc");*/
-        filterMap.put("/**","anon");
+        filterMap.put("/**","authc");
         filter.setFilterChainDefinitionMap(filterMap);
-        filter.setLoginUrl("/login.html");
-        filter.setSuccessUrl("/index.html");
+        Map<String,Filter> filters=new HashMap<>();
+        filters.put("authc",new MyShiroAuthcFilter());
+        filter.setFilters(filters);
+        filter.setLoginUrl("/index.html");
+        filter.setSuccessUrl("/home.html");
         return  filter;
     }
 

@@ -5,13 +5,18 @@ import com.github.pagehelper.PageInfo;
 import com.mysql.jdbc.StringUtils;
 import com.wwxn.bms.dao.OrderDao;
 import com.wwxn.bms.po.Order;
+import com.wwxn.bms.po.OrderEntry;
+import com.wwxn.bms.po.User;
 import com.wwxn.bms.pojo.OrderData;
+import com.wwxn.bms.pojo.OrderEntryData;
 import com.wwxn.bms.pojo.ResultBean;
 import com.wwxn.bms.service.OrderService;
 import com.wwxn.bms.utils.DateUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.naming.Name;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -33,16 +38,7 @@ public class OrderServiceImpl implements OrderService {
         else {
             count=orderDao.updateOrder(convert(orderData));
         }
-        if (count>0){
-            result.setSuccess(true);
-            result.setResultCode(200);
-            result.setMessage("操作成功");
-        }
-        else {
-            result.setSuccess(false);
-            result.setResultCode(500);
-            result.setMessage("操作失败");
-        }
+        formatResult(result, count);
         return result;
     }
 
@@ -61,6 +57,58 @@ public class OrderServiceImpl implements OrderService {
         resultBean.setSuccess(true);
         resultBean.setData(pageInfo);
         return resultBean;
+    }
+
+    @Override
+    public ResultBean deleteOrder(OrderData orderData) {
+        ResultBean result=new ResultBean();
+        int count=orderDao.deleteOrder(Integer.parseInt(orderData.getId()));
+        if (count>0){
+            result.setSuccess(true);
+            result.setResultCode(200);
+            result.setMessage("删除订单成功");
+        }
+        else {
+            result.setMessage("删除订单失败");
+            result.setSuccess(false);
+            result.setResultCode(500);
+        }
+        return result;
+    }
+
+    @Override
+    public ResultBean addOrUpdateOrderEntry(OrderEntryData orderEntryData) {
+        ResultBean result=new ResultBean();
+        int count=0;
+        if (StringUtils.isNullOrEmpty(orderEntryData.getId())){
+            count=orderDao.addOrderEntry(convert(orderEntryData));
+        }
+        else {
+            count=orderDao.updateOrderEntry(convert(orderEntryData));
+        }
+        formatResult(result, count);
+        return result;
+    }
+
+    private void formatResult(ResultBean result, int count) {
+        if (count>0){
+            result.setSuccess(true);
+            result.setResultCode(200);
+            result.setMessage("操作成功");
+        }
+        else {
+            result.setSuccess(false);
+            result.setResultCode(500);
+            result.setMessage("操作失败");
+        }
+    }
+
+    @Override
+    public ResultBean deleteOrderEntry(Integer id) {
+        ResultBean result=new ResultBean();
+        int count=orderDao.deleteOrderEntry(id);
+        formatResult(result,count);
+        return result;
     }
 
     protected Order convert(OrderData orderData) throws ParseException {
@@ -101,8 +149,8 @@ public class OrderServiceImpl implements OrderService {
         if (!StringUtils.isNullOrEmpty(orderData.getRemark())){
             order.setRemark(orderData.getRemark());
         }
-        order.setOwner(1);
-        //todo
+        User user= (User) SecurityUtils.getSubject().getPrincipal();
+        order.setOwner(user.getUserId());
         return order;
     }
 
@@ -119,5 +167,31 @@ public class OrderServiceImpl implements OrderService {
         orderData.setRemark(order.getRemark());
         orderData.setInvoiceCode(order.getInvoiceCode());
         return orderData;
+    }
+
+    protected OrderEntry convert(OrderEntryData orderEntryData){
+        OrderEntry orderEntry=new OrderEntry();
+        if (!StringUtils.isNullOrEmpty(orderEntryData.getId())){
+            orderEntry.setId(Integer.parseInt(orderEntryData.getId()));
+        }
+        if (StringUtils.isNullOrEmpty(orderEntryData.getEntryCode())){
+            orderEntry.setEntryCode(String.valueOf(new Date().getTime()));
+        }
+        if(!StringUtils.isNullOrEmpty(orderEntryData.getName())){
+            orderEntry.setName(orderEntryData.getName());
+        }
+        if (!StringUtils.isNullOrEmpty(orderEntryData.getPrice())){
+            orderEntry.setPrice(new BigDecimal(orderEntryData.getPrice()));
+        }
+        if (!StringUtils.isNullOrEmpty(orderEntryData.getRemark())){
+            orderEntry.setRemark(orderEntryData.getRemark());
+        }
+        if (!StringUtils.isNullOrEmpty(orderEntryData.getOrderId())){
+            orderEntry.setOrderId(Integer.parseInt(orderEntryData.getOrderId()));
+        }
+        if (!StringUtils.isNullOrEmpty(orderEntryData.getOwner())){
+            orderEntry.setOwner(Integer.parseInt(orderEntryData.getOwner()));
+        }
+        return orderEntry;
     }
 }

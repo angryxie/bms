@@ -15,6 +15,32 @@
             and phone like '%${phone}%'
         </if>
     </select>
+    <insert id="addOrderEntry" >
+      INSERT INTO  order_entry ( entry_code, name, price, remark, owner, order_id, create_date) VALUES (#{entryCode},#{name},#{price},#{remark},#{owner},#{orderId},NOW())
+    </insert>
+
+    <update id="deleteOrderEntry">
+        UPDATE order_entry SET  isdelete=1 where id=#{id};
+    </update>
+
+    <update id="updateOrderEntry">
+        UPDATE  order_entry
+        <set>
+          <if test="name!=null">
+            name=#{name},
+          </if>
+          <if test="price!=null">
+            price=#{price},
+          </if>
+          <if test="remark!=null">
+              remark=#{remark},
+          </if>
+          <if test="owner!=null">
+            owner=#{owner},
+          </if>
+        </set>
+        where id=#{id}
+    </update>
 
     <update id="updateOrder">
         UPDATE `order`
@@ -45,5 +71,9 @@
             </if>
         </set>
         WHERE  id=#{id}
+    </update>
+
+    <update id="deleteOrder">
+      UPDATE  `order` SET  isdelete=1 where id=#{id}
     </update>
 </mapper>

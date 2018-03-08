@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface UserDao {
     List<User> getUserByUserName(@Param("userName") String userName);
+
+    List<User> getUserInfo();
 }
