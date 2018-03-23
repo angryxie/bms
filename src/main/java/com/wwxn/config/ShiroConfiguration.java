@@ -26,6 +26,9 @@ public class ShiroConfiguration {
         ShiroFilterFactoryBean filter=new ShiroFilterFactoryBean();
         filter.setSecurityManager(securityManager);
         Map<String,String> filterMap=new HashMap<>();
+        Map<String,Filter> filters=new HashMap<>();
+        filters.put("authc",new MyShiroAuthcFilter());
+        filter.setFilters(filters);
         filterMap.put("/logout","logout");
         filterMap.put("/static/**","anon");
         filterMap.put("/favicon.ico", "anon");
@@ -34,9 +37,6 @@ public class ShiroConfiguration {
         filterMap.put("/index","user");
         filterMap.put("/**","authc");
         filter.setFilterChainDefinitionMap(filterMap);
-        Map<String,Filter> filters=new HashMap<>();
-        filters.put("authc",new MyShiroAuthcFilter());
-        filter.setFilters(filters);
         filter.setLoginUrl("/index.html");
         filter.setSuccessUrl("/home.html");
         return  filter;

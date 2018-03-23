@@ -19,4 +19,5 @@ public class MyShiroAuthcFilter extends AuthenticationFilter {
         response.getWriter().write(JSON.toJSONString(resultBean));
         return false;
     }
+
 }
