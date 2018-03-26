@@ -76,4 +76,8 @@
     <update id="deleteOrder">
       UPDATE  `order` SET  isdelete=1 where id=#{id}
     </update>
+
+    <select id="getOrderEntryByOrderId" resultType="com.wwxn.bms.po.OrderEntry">
+      SELECT o.id, o.entry_code, o.name, o.price, o.remark, o.owner , u.name as owner_name FROM order_entry o,user u  WHERE o.owner=u.user_id AND o.isdelete='0' AND o.order_id=#{id}
+    </select>
 </mapper>

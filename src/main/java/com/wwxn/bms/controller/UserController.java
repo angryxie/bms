@@ -7,6 +7,7 @@ import com.wwxn.bms.service.MenuService;
 import com.wwxn.bms.service.UserService;
 import org.apache.catalina.manager.util.SessionUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -48,7 +49,8 @@ public class UserController {
             result.setMessage("您已经登录过了");
         }
         else {
-            currentUser.login(new UsernamePasswordToken(user.getUserName(),user.getPassword()));
+            UsernamePasswordToken token=new UsernamePasswordToken(user.getUserName(),user.getPassword());
+            currentUser.login(token);
             result.setMessage("登录成功");
             result.setSuccess(true);
             result.setResultCode(200);

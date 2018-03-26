@@ -24,6 +24,16 @@ public class OrderEntry {
 
     private Integer orderId;
 
+    private String ownerName;
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
     public Integer getOrderId() {
         return orderId;
     }

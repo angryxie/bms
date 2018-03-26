@@ -17,4 +17,6 @@ public interface OrderService {
     ResultBean addOrUpdateOrderEntry(OrderEntryData orderEntryData);
 
     ResultBean deleteOrderEntry(Integer id);
+
+    ResultBean getOrderEntryByOrderId(Integer orderId);
 }

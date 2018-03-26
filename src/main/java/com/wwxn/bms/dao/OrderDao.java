@@ -20,4 +20,6 @@ public interface OrderDao {
     int updateOrderEntry(OrderEntry orderEntry);
 
     int deleteOrderEntry(Integer id);
+
+    List<OrderEntry> getOrderEntryByOrderId(Integer id);
 }

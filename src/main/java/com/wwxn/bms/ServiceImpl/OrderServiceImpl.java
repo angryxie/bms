@@ -111,6 +111,16 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    @Override
+    public ResultBean getOrderEntryByOrderId(Integer orderId) {
+        ResultBean result=new ResultBean();
+        List<OrderEntry> datas=orderDao.getOrderEntryByOrderId(orderId);
+        result.setResultCode(200);
+        result.setSuccess(true);
+        result.setData(datas);
+        return result;
+    }
+
     protected Order convert(OrderData orderData) throws ParseException {
         Order order=new Order();
         if (!StringUtils.isNullOrEmpty(orderData.getId())){
