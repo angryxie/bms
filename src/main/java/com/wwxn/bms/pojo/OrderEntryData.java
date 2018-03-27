@@ -19,6 +19,16 @@ public class OrderEntryData {
 
     private String orderId;
 
+    private String ownerName;
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
     public String getOrderId() {
         return orderId;
     }

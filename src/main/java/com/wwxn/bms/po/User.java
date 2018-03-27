@@ -13,14 +13,6 @@ public class User implements Serializable {
 
     private String name;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     private String password;
 
     private Date createdTime;
@@ -28,6 +20,14 @@ public class User implements Serializable {
     private Date updateTime;
 
     private Long phone;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Integer getUserId() {
         return userId;

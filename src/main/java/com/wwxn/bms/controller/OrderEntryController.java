@@ -24,4 +24,9 @@ public class OrderEntryController {
     public ResultBean getByOrderId(@RequestBody OrderData orderData){
         return orderService.getOrderEntryByOrderId(Integer.parseInt(orderData.getId()));
     }
+
+    @RequestMapping("/delete/{id}")
+    public ResultBean delete(@PathVariable String id){
+            return  orderService.deleteOrderEntry(Integer.parseInt(id));
+    }
 }

@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -117,8 +118,22 @@ public class OrderServiceImpl implements OrderService {
         List<OrderEntry> datas=orderDao.getOrderEntryByOrderId(orderId);
         result.setResultCode(200);
         result.setSuccess(true);
-        result.setData(datas);
+        result.setData(datas.stream().map(o->convert(o)).collect(Collectors.toList()));
         return result;
+    }
+
+    protected  OrderEntryData convert(OrderEntry orderEntry){
+        OrderEntryData orderEntryData=new OrderEntryData();
+        orderEntryData.setId(orderEntry.getId().toString());
+        orderEntryData.setEntryCode(orderEntry.getEntryCode());
+        orderEntryData.setName(orderEntry.getName());
+        orderEntryData.setPrice(orderEntry.getPrice().toString());
+        orderEntryData.setRemark(orderEntry.getRemark());
+        orderEntryData.setOwner(orderEntry.getOwner().toString());
+        orderEntryData.setCreateDate(DateUtils.formatDate(orderEntry.getCreateDate()));
+        orderEntryData.setOrderId(orderEntry.getOrderId().toString());
+        orderEntryData.setOwnerName(orderEntry.getOwnerName());
+        return  orderEntryData;
     }
 
     protected Order convert(OrderData orderData) throws ParseException {
